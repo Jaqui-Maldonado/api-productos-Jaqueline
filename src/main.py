@@ -48,10 +48,22 @@ def crear_producto(request):
 
     return JsonResponse({"error": "Metodo no permitido"}, status=405)
 
+#funcion para buscar por sku
+def buscar_producto(request, sku):
+    productos = obtener_productos()
+
+    for producto in productos:
+        if producto["sku"] == sku:
+            return JsonResponse(producto)
+        
+        return JsonResponse({"error": "Producto no encontrado"}, status=404)
+
+    
 #cuando se accede a la ruta raiz, se ejecuta la funcion inicio
 urlpatterns = [
     path("", inicio),
     path("productos", crear_producto),
+    path("productos/<str:sku>", buscar_producto), #despues de pruductos, espera el sku
 
 ]
 
