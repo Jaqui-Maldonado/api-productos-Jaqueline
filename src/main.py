@@ -31,21 +31,28 @@ def inicio(request):
     return JsonResponse({"mensaje": "API de productos funcionando"})
 
 def crear_producto(request):
-    if request.method != "POST":
-        return JsonResponse({"error": "Metodo no permitido"}, status=405)
-#lee el contenido del cuerpo de la solicitud y lo convierte en un diccionario de Python
-    datos = json.loads(request.body)
-#verifica que los campos requeridos esten presentes en los datos recibidos y sean existentes
-    productos = obtener_productos()
-    productos.append(datos) #se agrega el nuevo producto a la lista de productos existentes
-    guardar_productos(productos)
-#respuesta con un mensaje de exito
-    return JsonResponse(datos, status=201)
+    #si llega una peticion que no sea GET, se ejecuta el siguiente bloque de codigo si no se manda al siguiente bloque de codigo
+    if request.method == "GET":
+        productos = obtener_productos()
+        #False para decir que es una lista y no un diccionario
+        return JsonResponse(productos, safe=False)
+    #si llega una peticion que no sea POST, se ejecuta el siguiente bloque de codigo
+    if request.method == "POST":
+        datos = json.loads(request.body)
+
+        productos = obtener_productos()
+        productos.append(datos) #se agrega el nuevo producto a la lista de productos existentes
+        guardar_productos(productos)
+    #respuesta con un mensaje de exito
+        return JsonResponse(datos, status=201)
+
+    return JsonResponse({"error": "Metodo no permitido"}, status=405)
 
 #cuando se accede a la ruta raiz, se ejecuta la funcion inicio
 urlpatterns = [
     path("", inicio),
     path("productos", crear_producto),
+
 ]
 
 
