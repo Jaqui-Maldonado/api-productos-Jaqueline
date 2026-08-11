@@ -80,13 +80,15 @@ def actualizar_producto(request, sku):
     #eliminar producto
 def eliminar_producto(request, sku):
     if request.method != "DELETE":
-        productos = obtener_productos()
+        return JsonResponse({"error": "Metodo no permitido"}, status=405)
+    
+    productos = obtener_productos()
 
-        for producto in productos:
-            if producto["sku"] == sku:
-                productos.remove(producto)
-                guardar_productos(productos)
-                return JsonResponse({"mensaje": "Producto eliminado"})
+    for producto in productos:
+        if producto["sku"] == sku:
+            productos.remove(producto)
+            guardar_productos(productos)
+            return JsonResponse({"mensaje": "Producto eliminado"})
 
     return JsonResponse({"error": "Metodo no permitido"}, status=405)
     
@@ -96,6 +98,7 @@ urlpatterns = [
     path("productos", crear_producto),
     path("productos/<str:sku>", buscar_producto), #despues de pruductos, espera el sku
     path("productos/<str:sku>/actualizar", actualizar_producto),
+    path("productos/<str:sku>/eliminar", eliminar_producto),
 ]
 
 
