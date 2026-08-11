@@ -66,7 +66,7 @@ def buscar_producto(request, sku):
         
         return JsonResponse({"error": "Producto no encontrado"}, status=404)
 
-#actualizar stock y precio del producto
+#actualizar stock y precio del producto.
 def actualizar_producto(request, sku):
     if request.method != "PUT":
         return JsonResponse({"error": "Metodo no permitido"}, status=405)
