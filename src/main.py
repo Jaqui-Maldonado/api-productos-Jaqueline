@@ -26,7 +26,7 @@ def guardar_productos(productos):
     with open(ARCHIVO_PRODUCTOS, "w", encoding="utf-8") as archivo:
         json.dump(productos, archivo, ensure_ascii=False, indent=4)
 
-#peticion y recibe una respuesta.
+#peticion y recibe una respuesta. ruta inicial
 def inicio(request):
     return JsonResponse({"mensaje": "API de productos funcionando"})
 
@@ -39,8 +39,16 @@ def crear_producto(request):
     #si llega una peticion que no sea POST, se ejecuta el siguiente bloque de codigo
     if request.method == "POST":
         datos = json.loads(request.body)
-
         productos = obtener_productos()
+
+#valida que el sku no exista y que el precio sea mayor a 0
+        for producto in productos:
+            if producto["sku"] == datos["sku"]:
+                return JsonResponse({"error": "El SKU ya existe"}, status=400)
+        
+        if datos ["precio"] <= 0:
+            return JsonResponse({"error": "El precio debe ser mayor a 0"}, status=400)
+
         productos.append(datos) #se agrega el nuevo producto a la lista de productos existentes
         guardar_productos(productos)
     #respuesta con un mensaje de exito

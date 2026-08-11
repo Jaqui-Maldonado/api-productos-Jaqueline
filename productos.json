@@ -1,9 +1,16 @@
 [
     {
+        "nombre": "Laptop ASUS",
+        "sku": "JMM1",
+        "categoria": "Tecnologia",
+        "precio": 10.5,
+        "stock": 15
+    },
+    {
         "nombre": "Laptop Gamer",
         "sku": "LT-GM-001",
         "categoria": "Tecnologia",
-        "precio": 20000,
-        "stock": 15
+        "precio": 18500.5,
+        "stock": 10
     }
 ]
