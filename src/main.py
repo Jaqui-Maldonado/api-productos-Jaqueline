@@ -58,13 +58,32 @@ def buscar_producto(request, sku):
         
         return JsonResponse({"error": "Producto no encontrado"}, status=404)
 
+#actualizar stock y precio del producto
+def actualizar_producto(request, sku):
+    if request.method != "PUT":
+        return JsonResponse({"error": "Metodo no permitido"}, status=405)
+
+    datos = json.loads(request.body)
+    productos = obtener_productos()
+
+    for producto in productos:
+        if producto["sku"] == sku:
+            producto["precio"] = datos["precio"]
+            producto["stock"] = datos["stock"]
+
+            guardar_productos(productos)
+
+            return JsonResponse(producto)
+
+    return JsonResponse({"error": "Producto no encontrado"}, status=404)
+
     
 #cuando se accede a la ruta raiz, se ejecuta la funcion inicio
 urlpatterns = [
     path("", inicio),
     path("productos", crear_producto),
     path("productos/<str:sku>", buscar_producto), #despues de pruductos, espera el sku
-
+    path("productos/<str:sku>/actualizar", actualizar_producto),
 ]
 
 

@@ -3,7 +3,7 @@
         "nombre": "Laptop Gamer",
         "sku": "LT-GM-001",
         "categoria": "Tecnologia",
-        "precio": 18500.5,
-        "stock": 10
+        "precio": 20000,
+        "stock": 15
     }
 ]
