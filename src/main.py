@@ -77,6 +77,18 @@ def actualizar_producto(request, sku):
 
     return JsonResponse({"error": "Producto no encontrado"}, status=404)
 
+    #eliminar producto
+def eliminar_producto(request, sku):
+    if request.method != "DELETE":
+        productos = obtener_productos()
+
+        for producto in productos:
+            if producto["sku"] == sku:
+                productos.remove(producto)
+                guardar_productos(productos)
+                return JsonResponse({"mensaje": "Producto eliminado"})
+
+    return JsonResponse({"error": "Metodo no permitido"}, status=405)
     
 #cuando se accede a la ruta raiz, se ejecuta la funcion inicio
 urlpatterns = [
