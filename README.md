@@ -51,9 +51,12 @@ python src/main.py runserver
 EJEMPLO:
 Invoke-RestMethod "http://127.0.0.1:8000/productos" -Method POST -ContentType "application/json" -Body '{"nombre":"Laptop Gamer","sku":"LT-GM-001","categoria":"Tecnologia","precio":18500.50,"stock":10}'
 
+**skuproducto** se cambia por el sku de un producto que tengan en productos.json
+
 # Listar productos
 
  Invoke-RestMethod  "http://127.0.0.1:8000/productos" -Method GET
+
 
 # Consultar producto por SKU
 
